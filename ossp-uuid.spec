@@ -1,23 +1,21 @@
 # TODO
-# - rename include ossp/uuid.h?
-# - rename package to ossp-uuid?
 # - fix bindings compilation (when library is not installed)
 #
 # Conditional build:
-%bcond_without	php		# build PHP binding
-%bcond_with	perl		# build Perl binding
-%bcond_without	pgsql		# build postgresql binding
+%bcond_with		php			# build PHP binding
+%bcond_with		perl		# build Perl binding
+%bcond_with		pgsql		# build postgresql binding
 #
 Summary:	Universally Unique Identifier library
-Name:		uuid
+Name:		ossp-uuid
 Version:	1.6.1
 Release:	1
 License:	MIT
 Group:		Libraries
 URL:		http://www.ossp.org/pkg/lib/uuid/
-Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 # Source0-md5:	18c8875411da07fe4503fdfc2136bf46
-Patch0:		%{name}-ossp-prefix.patch
+Patch0:		uuid-ossp-prefix.patch
 BuildRequires:	libtool
 %{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
@@ -77,35 +75,35 @@ Requires:	%{name}-devel = %{version}-%{release}
 %description dce-devel
 DCE development headers and libraries for OSSP uuid.
 
-%package -n perl-%{name}
+%package -n perl-uuid
 Summary:	OSSP uuid Perl Binding
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
-%description -n perl-%{name}
+%description -n perl-uuid
 Perl OSSP uuid modules, which includes a Data::UUID replacement.
 
-%package -n php-%{name}
+%package -n php-uuid
 Summary:	PHP support for Universally Unique Identifier library
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
 Requires:	php-common >= 4:5.0.4
 
-%description -n php-%{name}
+%description -n php-uuid
 UUID is a PHP extension for the creation of Universally Unique
 Identifiers (UUID).
 
-%package -n postgresql-%{name}
+%package -n postgresql-uuid
 Summary:	OSSP uuid bindings for PostgreSQL
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
-%description -n postgresql-%{name}
+%description -n postgresql-uuid
 PostgreSQL OSSP uuid module.
 
 %prep
-%setup -q
+%setup -q -n uuid-%{version}
 %patch0 -p1
 
 %build
@@ -127,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %if %{with php}
 install -d $RPM_BUILD_ROOT%{_datadir}/php
-mv $RPM_BUILD_ROOT{%{php_extensiondir},%{_datadir}/php}/%{name}.php
+mv $RPM_BUILD_ROOT{%{php_extensiondir},%{_datadir}/php}/uuid.php
 %endif
 
 %clean
@@ -184,7 +182,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libossp-uuid_dce.la
 
 %if %{with perl}
-%files -n perl-%{name}
+%files -n perl-uuid
 %defattr(644,root,root,755)
 %{perl_vendorarch}/auto/*
 %{perl_vendorarch}/Data*
@@ -194,14 +192,14 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with php}
-%files -n php-%{name}
+%files -n php-uuid
 %defattr(644,root,root,755)
 %{_libdir}/php/ossp-uuid.so
 %{_datadir}/php/uuid.php
 %endif
 
 %if %{with pgsql}
-%files -n postgresql-%{name}
+%files -n postgresql-uuid
 %defattr(644,root,root,755)
 %{_libdir}/postgresql/ossp-uuid.so
 %{_datadir}/postgresql/uuid.sql
