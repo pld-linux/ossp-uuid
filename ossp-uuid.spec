@@ -8,13 +8,13 @@
 #
 Summary:	Universally Unique Identifier library
 Name:		ossp-uuid
-Version:	1.6.1
+Version:	1.6.2
 Release:	1
 License:	MIT
 Group:		Libraries
 URL:		http://www.ossp.org/pkg/lib/uuid/
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
-# Source0-md5:	18c8875411da07fe4503fdfc2136bf46
+# Source0-md5:	5db0d43a9022a6ebbbc25337ae28942f
 Patch0:		uuid-ossp-prefix.patch
 BuildRequires:	libtool
 %{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
