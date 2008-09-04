@@ -9,7 +9,7 @@
 Summary:	Universally Unique Identifier library
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	3
+Release:	4
 License:	MIT
 Group:		Libraries
 URL:		http://www.ossp.org/pkg/lib/uuid/
@@ -120,6 +120,7 @@ PostgreSQL OSSP uuid module.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/%{_lib}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -127,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/php
 mv $RPM_BUILD_ROOT{%{php_extensiondir},%{_datadir}/php}/uuid.php
 %endif
+
+mv -f $RPM_BUILD_ROOT%{_libdir}/libossp-uuid.so.* $RPM_BUILD_ROOT/%{_lib}
+ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libossp-uuid.so.*.*) $RPM_BUILD_ROOT%{_libdir}/libossp-uuid.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -144,8 +148,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog HISTORY NEWS PORTING README SEEALSO THANKS TODO USERS
 %attr(755,root,root) %{_bindir}/uuid
-%attr(755,root,root) %{_libdir}/libossp-uuid.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libossp-uuid.so.16
+%attr(755,root,root) /%{_lib}/libossp-uuid.so.*.*.*
+%attr(755,root,root) %ghost /%{_lib}/libossp-uuid.so.16
 %{_mandir}/man1/uuid.1*
 
 %files devel
