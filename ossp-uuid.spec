@@ -109,7 +109,7 @@ PostgreSQL OSSP uuid module.
 %build
 # Build the library.
 %configure \
-	--includedir=%{_includedir}/oosp-uuid \
+	--includedir=%{_includedir}/ossp-uuid \
 	--disable-static \
 	--with-dce \
 	--with-cxx \
@@ -156,8 +156,8 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uuid-config
-%dir %{_includedir}/oosp-uuid
-%{_includedir}/oosp-uuid/uuid.h
+%dir %{_includedir}/ossp-uuid
+%{_includedir}/ossp-uuid/uuid.h
 %{_libdir}/libossp-uuid.so
 %{_pkgconfigdir}/ossp-uuid.pc
 %{_mandir}/man3/ossp-uuid.3*
@@ -171,7 +171,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files c++-devel
 %defattr(644,root,root,755)
-%{_includedir}/oosp-uuid/uuid++.hh
+%{_includedir}/ossp-uuid/uuid++.hh
 %{_libdir}/libossp-uuid++.so
 %{_libdir}/libossp-uuid++.la
 %{_mandir}/man3/uuid++.3*
@@ -183,7 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files dce-devel
 %defattr(644,root,root,755)
-%{_includedir}/oosp-uuid/uuid_dce.h
+%{_includedir}/ossp-uuid/uuid_dce.h
 %{_libdir}/libossp-uuid_dce.so
 %{_libdir}/libossp-uuid_dce.la
 
