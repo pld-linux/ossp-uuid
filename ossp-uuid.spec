@@ -2,20 +2,21 @@
 # - fix bindings compilation (when library is not installed)
 #
 # Conditional build:
-%bcond_with		php			# build PHP binding
-%bcond_with		perl		# build Perl binding
-%bcond_with		pgsql		# build postgresql binding
+%bcond_with	php		# build PHP binding
+%bcond_with	perl		# build Perl binding
+%bcond_with	pgsql		# build postgresql binding
 #
 Summary:	Universally Unique Identifier library
+Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
 Version:	1.6.2
 Release:	7
 License:	MIT
 Group:		Libraries
-URL:		http://www.ossp.org/pkg/lib/uuid/
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 # Source0-md5:	5db0d43a9022a6ebbbc25337ae28942f
 Patch0:		uuid-ossp-prefix.patch
+URL:		http://www.ossp.org/pkg/lib/uuid/
 BuildRequires:	libtool
 %{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
@@ -33,24 +34,45 @@ bindings are provided for the languages ISO-C++:1998, Perl:5 and
 PHP:4/5. Optional backward compatibility exists for the ISO-C DCE-1.1
 and Perl Data::UUID APIs.
 
+%description -l pl.UTF-8
+OSSP uuid to interfejs programistyczny (API) ISO-C:1999 i
+odpowiadający mu interfejs linii poleceń (CLI) do generowania
+całkowicie unikalnych identyfikatorów UUID (Universally Unique
+Identifier) zgodnych z DCE 1.1, ISO/IEC 11578:1996 i RFC 4122.
+Obsługuje wariant DCE 1.1 UUID-ów w wersji 1 (oparty na czasie i
+węzłach), w wersji 3 (oparty na nazwie i MD5), w wersji 4 (oparty na
+liczbach losowych) oraz w wersji 5 (oparty na nazwach i SHA-1).
+Załączone są dodatkowe wiązania API do języków ISO-C++:1998, Perl:5
+oraz PHP:4/5. Istnieje też opcjonalna warstwa kompatybilności dla
+API ISO-C DCE-1.1 i perlowego Data::UUID.
+
 %package devel
-Summary:	Development support for Universally Unique Identifier library
+Summary:	Development files for Universally Unique Identifier library
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki OSSP uuid
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Development headers and libraries for OSSP uuid.
 
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki OSSP uuid.
+
 %package c++
 Summary:	C++ support for Universally Unique Identifier library
+Summary(pl.UTF-8):	Wiązania C++ dla biblioteki OSSP uuid
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description c++
-C++ libraries for OSSP uuid.
+C++ binding for OSSP uuid library.
+
+%description c++ -l pl.UTF-8
+Wiązania C++ dla biblioteki OSSP uuid.
 
 %package c++-devel
 Summary:	C++ development support for Universally Unique Identifier library
+Summary(pl.UTF-8):	Pliki programistyczne wiązania C++ biblioteki OSSP uuid
 Group:		Development/Libraries
 Requires:	%{name}-c++ = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
@@ -58,16 +80,24 @@ Requires:	%{name}-devel = %{version}-%{release}
 %description c++-devel
 C++ development headers and libraries for OSSP uuid.
 
+%description c++-devel -l pl.UTF-8
+Pliki programistyczne wiązania C++ biblioteki OSSP uuid.
+
 %package dce
 Summary:	DCE support for Universally Unique Identifier library
+Summary(pl.UTF-8):	Obsługa DCE dla biblioteki OSSP uuid
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description dce
 DCE OSSP uuid library.
 
+%description dce -l pl.UTF-8
+Biblioteka DCE OSSP uuid.
+
 %package dce-devel
 Summary:	DCE development support for Universally Unique Identifier library
+Summary(pl.UTF-8):	Pliki programistyczne obsługi DCE dla biblioteki OSSP uuid
 Group:		Development/Libraries
 Requires:	%{name}-dce = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
@@ -75,16 +105,24 @@ Requires:	%{name}-devel = %{version}-%{release}
 %description dce-devel
 DCE development headers and libraries for OSSP uuid.
 
+%description dce-devel -l pl.UTF-8
+Pliki programistyczne obsługi DCE dla biblioteki OSSP uuid.
+
 %package -n perl-uuid
 Summary:	OSSP uuid Perl Binding
+Summary(pl.UTF-8):	Perlowe wiązania biblioteki OSSP uuid
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description -n perl-uuid
 Perl OSSP uuid modules, which includes a Data::UUID replacement.
 
+%description -n perl-uuid -l pl.UTF-8
+Moduły Perla OSSP uuid, zawierające zamiennik Data::UUID.
+
 %package -n php-uuid
 Summary:	PHP support for Universally Unique Identifier library
+Summary(pl.UTF-8):	Wiązania PHP dla biblioteki OSSP UUID
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
@@ -94,13 +132,21 @@ Requires:	php-common >= 4:5.0.4
 UUID is a PHP extension for the creation of Universally Unique
 Identifiers (UUID).
 
+%description -n php-uuid -l pl.UTF-8
+UUID to rozrzeszenie PHP do tworzenia całkowicie unikalnych
+identyfikatorów UUID.
+
 %package -n postgresql-uuid
 Summary:	OSSP uuid bindings for PostgreSQL
+Summary(pl.UTF-8):	Wiązania OSSP uuid dla PostgreSQL-a
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description -n postgresql-uuid
 PostgreSQL OSSP uuid module.
+
+%description -n postgresql-uuid -l pl.UTF-8
+Moduł OSSP uuid dla PostgreSQL-a.
 
 %prep
 %setup -q -n uuid-%{version}
@@ -136,14 +182,14 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libossp-uuid.so.*.*) $RPM_BUI
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
-%post c++ -p /sbin/ldconfig
-%postun c++ -p /sbin/ldconfig
+%post	c++ -p /sbin/ldconfig
+%postun	c++ -p /sbin/ldconfig
 
-%post dce -p /sbin/ldconfig
-%postun dce -p /sbin/ldconfig
+%post	dce -p /sbin/ldconfig
+%postun	dce -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -156,13 +202,13 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/uuid-config
+%attr(755,root,root) %{_libdir}/libossp-uuid.so
+%{_libdir}/libossp-uuid.la
 %dir %{_includedir}/ossp-uuid
 %{_includedir}/ossp-uuid/uuid.h
-%{_libdir}/libossp-uuid.so
 %{_pkgconfigdir}/ossp-uuid.pc
-%{_mandir}/man3/ossp-uuid.3*
 %{_mandir}/man1/uuid-config.1*
-%{_libdir}/libossp-uuid.la
+%{_mandir}/man3/ossp-uuid.3*
 
 %files c++
 %defattr(644,root,root,755)
@@ -171,9 +217,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files c++-devel
 %defattr(644,root,root,755)
-%{_includedir}/ossp-uuid/uuid++.hh
-%{_libdir}/libossp-uuid++.so
+%attr(755,root,root) %{_libdir}/libossp-uuid++.so
 %{_libdir}/libossp-uuid++.la
+%{_includedir}/ossp-uuid/uuid++.hh
 %{_mandir}/man3/uuid++.3*
 
 %files dce
@@ -183,13 +229,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files dce-devel
 %defattr(644,root,root,755)
-%{_includedir}/ossp-uuid/uuid_dce.h
-%{_libdir}/libossp-uuid_dce.so
+%attr(755,root,root) %{_libdir}/libossp-uuid_dce.so
 %{_libdir}/libossp-uuid_dce.la
+%{_includedir}/ossp-uuid/uuid_dce.h
 
 %if %{with perl}
 %files -n perl-uuid
 %defattr(644,root,root,755)
+# XXX: FIXME
 %{perl_vendorarch}/auto/*
 %{perl_vendorarch}/Data*
 %{perl_vendorarch}/OSSP*
@@ -200,13 +247,13 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with php}
 %files -n php-uuid
 %defattr(644,root,root,755)
-%{_libdir}/php/ossp-uuid.so
+%attr(755,root,root) %{_libdir}/php/ossp-uuid.so
 %{_datadir}/php/uuid.php
 %endif
 
 %if %{with pgsql}
 %files -n postgresql-uuid
 %defattr(644,root,root,755)
-%{_libdir}/postgresql/ossp-uuid.so
+%attr(755,root,root) %{_libdir}/postgresql/ossp-uuid.so
 %{_datadir}/postgresql/uuid.sql
 %endif
