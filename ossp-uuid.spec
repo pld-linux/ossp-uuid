@@ -17,9 +17,12 @@ Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 # Source0-md5:	5db0d43a9022a6ebbbc25337ae28942f
 Patch0:		uuid-ossp-prefix.patch
 URL:		http://www.ossp.org/pkg/lib/uuid/
+%{?with_php:BuildRequires:	/usr/bin/php}
+BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 %{?with_perl:BuildRequires:	perl-devel}
 %{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
+%{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	rpmbuild(macros) >= 1.519
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
