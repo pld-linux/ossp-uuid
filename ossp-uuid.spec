@@ -2,10 +2,10 @@
 # - fix bindings compilation (when library is not installed)
 #
 # Conditional build:
-%bcond_with	php		# build PHP binding
-%bcond_with	perl		# build Perl binding
-%bcond_with	pgsql		# build postgresql binding
-#
+%bcond_without	php		# build PHP binding
+%bcond_without	perl		# build Perl binding
+%bcond_without	pgsql		# build postgresql binding
+
 Summary:	Universally Unique Identifier library
 Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
@@ -18,9 +18,10 @@ Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 Patch0:		uuid-ossp-prefix.patch
 URL:		http://www.ossp.org/pkg/lib/uuid/
 BuildRequires:	libtool
+%{?with_perl:BuildRequires:	perl-devel}
 %{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
-BuildRequires:	rpmbuild(macros) >= 1.344
+BuildRequires:	rpmbuild(macros) >= 1.519
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -43,8 +44,8 @@ Obsługuje wariant DCE 1.1 UUID-ów w wersji 1 (oparty na czasie i
 węzłach), w wersji 3 (oparty na nazwie i MD5), w wersji 4 (oparty na
 liczbach losowych) oraz w wersji 5 (oparty na nazwach i SHA-1).
 Załączone są dodatkowe wiązania API do języków ISO-C++:1998, Perl:5
-oraz PHP:4/5. Istnieje też opcjonalna warstwa kompatybilności dla
-API ISO-C DCE-1.1 i perlowego Data::UUID.
+oraz PHP:4/5. Istnieje też opcjonalna warstwa kompatybilności dla API
+ISO-C DCE-1.1 i perlowego Data::UUID.
 
 %package devel
 Summary:	Development files for Universally Unique Identifier library
@@ -169,15 +170,38 @@ Moduł OSSP uuid dla PostgreSQL-a.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/%{_lib}
 %{__make} install \
+	WITH_PHP=no \
+	WITH_PERL=no \
 	DESTDIR=$RPM_BUILD_ROOT
-
-%if %{with php}
-install -d $RPM_BUILD_ROOT%{_datadir}/php
-mv $RPM_BUILD_ROOT{%{php_extensiondir},%{_datadir}/php}/uuid.php
-%endif
 
 mv -f $RPM_BUILD_ROOT%{_libdir}/libossp-uuid.so.* $RPM_BUILD_ROOT/%{_lib}
 ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libossp-uuid.so.*.*) $RPM_BUILD_ROOT%{_libdir}/libossp-uuid.so
+
+%if %{with perl}
+%{__make} pure_install \
+	-C perl \
+	INSTALLDIRS=vendor \
+	DESTDIR=$RPM_BUILD_ROOT
+
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/OSSP/uuid.pod
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/OSSP/uuid/.packlist
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/OSSP/uuid/uuid.bs
+%endif
+
+%if %{with php}
+install -d $RPM_BUILD_ROOT{%{php_data_dir},%{php_sysconfdir}/conf.d}
+%{__make} install \
+	-C php \
+	-f Makefile.local \
+	EXTDIR=%{php_extensiondir} \
+	DESTDIR=$RPM_BUILD_ROOT
+
+mv $RPM_BUILD_ROOT{%{php_extensiondir},%{php_data_dir}}/uuid.php
+cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{name}.ini
+; Enable %{name} extension module
+extension=%{name}.so
+EOF
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -236,19 +260,20 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with perl}
 %files -n perl-uuid
 %defattr(644,root,root,755)
-# XXX: FIXME
-%{perl_vendorarch}/auto/*
-%{perl_vendorarch}/Data*
-%{perl_vendorarch}/OSSP*
-%{_mandir}/man3/Data::UUID.3*
+%dir %{perl_vendorarch}/OSSP
+%{perl_vendorarch}/OSSP/uuid.pm
+%dir %{perl_vendorarch}/auto/OSSP
+%dir %{perl_vendorarch}/auto/OSSP/uuid
+%attr(755,root,root) %{perl_vendorarch}/auto/OSSP/uuid/uuid.so
 %{_mandir}/man3/OSSP::uuid.3*
 %endif
 
 %if %{with php}
 %files -n php-uuid
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/php/ossp-uuid.so
-%{_datadir}/php/uuid.php
+%config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{name}.ini
+%attr(755,root,root) %{php_extensiondir}/%{name}.so
+%{php_data_dir}/uuid.php
 %endif
 
 %if %{with pgsql}
