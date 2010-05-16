@@ -80,6 +80,7 @@ Summary(pl.UTF-8):	Pliki programistyczne wiązania C++ biblioteki OSSP uuid
 Group:		Development/Libraries
 Requires:	%{name}-c++ = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
+Requires:	libstdc++-devel
 
 %description c++-devel
 C++ development headers and libraries for OSSP uuid.
