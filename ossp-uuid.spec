@@ -2,15 +2,15 @@
 # - fix bindings compilation (when library is not installed)
 #
 # Conditional build:
-%bcond_without	php		# build PHP binding
-%bcond_without	perl		# build Perl binding
-%bcond_without	pgsql		# build postgresql binding
+%bcond_without	php		# don't build PHP binding
+%bcond_without	perl		# don't build Perl binding
+%bcond_with	pgsql		# build postgresql binding
 
 Summary:	Universally Unique Identifier library
 Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	7
+Release:	8
 License:	MIT
 Group:		Libraries
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
