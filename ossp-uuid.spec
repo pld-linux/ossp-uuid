@@ -1,5 +1,3 @@
-# TODO
-# - fix bindings compilation (when library is not installed)
 #
 # Conditional build:
 %bcond_without	php		# don't build PHP binding
