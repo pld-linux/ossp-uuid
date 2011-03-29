@@ -3,12 +3,13 @@
 %bcond_without	php		# don't build PHP binding
 %bcond_without	perl		# don't build Perl binding
 %bcond_with	pgsql		# build postgresql binding
+%bcond_without  static_libs     # don't build static libraries
 
 Summary:	Universally Unique Identifier library
 Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	9
+Release:	10
 License:	MIT
 Group:		Libraries
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
@@ -60,6 +61,18 @@ Development headers and libraries for OSSP uuid.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki OSSP uuid.
 
+%package static
+Summary:	Universally Unique Identifier library - static library
+Summary(pl.UTF-8):	Biblioteka statyczna OSSP uuid
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Universally Unique Identifier library - static library
+
+%description static -l pl.UTF-8
+Biblioteka statyczna OSSP uuid
+
 %package c++
 Summary:	C++ support for Universally Unique Identifier library
 Summary(pl.UTF-8):	Wiązania C++ dla biblioteki OSSP uuid
@@ -86,6 +99,18 @@ C++ development headers and libraries for OSSP uuid.
 %description c++-devel -l pl.UTF-8
 Pliki programistyczne wiązania C++ biblioteki OSSP uuid.
 
+%package c++-static
+Summary:	C++ support for Universally Unique Identifier library - static library
+Summary(pl.UTF-8):	Wiązania C++ dla biblioteki OSSP uuid - biblioteka statyczna
+Group:		Development/Libraries
+Requires:	%{name}-c++-devel = %{version}-%{release}
+
+%description c++-static
+C++ support for Universally Unique Identifier library - static library
+
+%description c++-static -l pl.UTF-8
+Wiązania C++ dla biblioteki OSSP uuid - biblioteka statyczna
+
 %package dce
 Summary:	DCE support for Universally Unique Identifier library
 Summary(pl.UTF-8):	Obsługa DCE dla biblioteki OSSP uuid
@@ -110,6 +135,20 @@ DCE development headers and libraries for OSSP uuid.
 
 %description dce-devel -l pl.UTF-8
 Pliki programistyczne obsługi DCE dla biblioteki OSSP uuid.
+
+%package dce-static
+Summary:	DCE development support for Universally Unique Identifier library - static library
+Summary(pl.UTF-8):	Pliki programistyczne obsługi DCE dla biblioteki OSSP uuid - biblioteka statyczna
+Group:		Development/Libraries
+Requires:	%{name}-dce-devel = %{version}-%{release}
+
+%description dce-static
+DCE development support for Universally Unique Identifier library -
+static library
+
+%description dce-static -l pl.UTF-8
+Pliki programistyczne obsługi DCE dla biblioteki OSSP uuid -
+biblioteka statyczna
 
 %package -n perl-uuid
 Summary:	OSSP uuid Perl Binding
@@ -159,7 +198,7 @@ Moduł OSSP uuid dla PostgreSQL-a.
 # Build the library.
 %configure \
 	--includedir=%{_includedir}/ossp-uuid \
-	--disable-static \
+	%{!?with_static_libs:--disable-static} \
 	--with-dce \
 	--with-cxx \
 	--with%{!?with_perl:out}-perl \
@@ -236,6 +275,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/uuid-config.1*
 %{_mandir}/man3/ossp-uuid.3*
 
+%if %{with static_libs}
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libossp-uuid.a
+%endif
+
 %files c++
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libossp-uuid++.so.*.*.*
@@ -248,6 +293,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/ossp-uuid/uuid++.hh
 %{_mandir}/man3/uuid++.3*
 
+%if %{with static_libs}
+%files c++-static
+%defattr(644,root,root,755)
+%{_libdir}/libossp-uuid++.a
+%endif
+
 %files dce
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libossp-uuid_dce.so.*.*.*
@@ -258,6 +309,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libossp-uuid_dce.so
 %{_libdir}/libossp-uuid_dce.la
 %{_includedir}/ossp-uuid/uuid_dce.h
+
+%if %{with static_libs}
+%files dce-static
+%defattr(644,root,root,755)
+%{_libdir}/libossp-uuid_dce.a
+%endif
 
 %if %{with perl}
 %files -n perl-uuid
