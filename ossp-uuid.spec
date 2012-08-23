@@ -9,7 +9,7 @@ Summary:	Universally Unique Identifier library
 Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	13
+Release:	14
 License:	MIT
 Group:		Libraries
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
@@ -168,7 +168,7 @@ Summary(pl.UTF-8):	Wiązania PHP dla biblioteki OSSP UUID
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
-Requires:	php-common >= 4:5.0.4
+Requires:	php(core) >= 5.0.4
 
 %description -n php-uuid
 UUID is a PHP extension for the creation of Universally Unique
