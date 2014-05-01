@@ -1,0 +1,12 @@
+PHP3 compatibility headers were dropped in PHP 5.4
+--- uuid-1.6.2/php/uuid.c~	2007-01-01 20:35:57.000000000 +0200
++++ uuid-1.6.2/php/uuid.c	2014-05-01 21:12:08.750512116 +0300
+@@ -496,7 +496,7 @@
+ }
+ 
+ /* module function table */
+-static function_entry uuid_functions[] = {
++static zend_function_entry uuid_functions[] = {
+     PHP_FE(uuid_create,  NULL)
+     PHP_FE(uuid_destroy, NULL)
+     PHP_FE(uuid_clone,   NULL)

@@ -9,12 +9,13 @@ Summary:	Universally Unique Identifier library
 Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	15
+Release:	16
 License:	MIT
 Group:		Libraries
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 # Source0-md5:	5db0d43a9022a6ebbbc25337ae28942f
 Patch0:		uuid-ossp-prefix.patch
+Patch1:		php3.patch
 URL:		http://www.ossp.org/pkg/lib/uuid/
 %{?with_php:BuildRequires:	/usr/bin/php}
 BuildRequires:	libstdc++-devel
@@ -193,6 +194,7 @@ Moduł OSSP uuid dla PostgreSQL-a.
 %prep
 %setup -q -n uuid-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 # Build the library.
