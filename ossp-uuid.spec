@@ -5,11 +5,12 @@
 %bcond_with	pgsql		# build postgresql binding
 %bcond_without  static_libs     # don't build static libraries
 
+%define		php_name	php55
 Summary:	Universally Unique Identifier library
 Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	17
+Release:	18
 License:	MIT
 Group:		Libraries
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
@@ -17,11 +18,11 @@ Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 Patch0:		uuid-ossp-prefix.patch
 Patch1:		php3.patch
 URL:		http://www.ossp.org/pkg/lib/uuid/
-%{?with_php:BuildRequires:	/usr/bin/php}
+%{?with_php:BuildRequires:    %{php_name}-program}
+%{?with_php:BuildRequires:	%{php_name}-devel}
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 %{?with_perl:BuildRequires:	perl-devel}
-%{?with_php:BuildRequires:	php-devel >= 3:5.0.0}
 %{?with_pgsql:BuildRequires:	postgresql-backend-devel}
 %{?with_pgsql:BuildRequires:	postgresql-devel}
 BuildRequires:	rpmbuild(macros) >= 1.519
@@ -163,19 +164,18 @@ Perl OSSP uuid modules, which includes a Data::UUID replacement.
 %description -n perl-uuid -l pl.UTF-8
 Moduły Perla OSSP uuid, zawierające zamiennik Data::UUID.
 
-%package -n php-uuid
+%package -n %{php_name}-uuid
 Summary:	PHP support for Universally Unique Identifier library
 Summary(pl.UTF-8):	Wiązania PHP dla biblioteki OSSP UUID
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %{?requires_php_extension}
-Requires:	php(core) >= 5.0.4
 
-%description -n php-uuid
+%description -n %{php_name}-uuid
 UUID is a PHP extension for the creation of Universally Unique
 Identifiers (UUID).
 
-%description -n php-uuid -l pl.UTF-8
+%description -n %{php_name}-uuid -l pl.UTF-8
 UUID to rozrzeszenie PHP do tworzenia całkowicie unikalnych
 identyfikatorów UUID.
 
@@ -204,7 +204,7 @@ Moduł OSSP uuid dla PostgreSQL-a.
 	--with-dce \
 	--with-cxx \
 	--with%{!?with_perl:out}-perl \
-	--with%{!?with_php:out}-php \
+	--with%{!?with_php:out}-php PHP=php \
 	--with%{!?with_pgsql:out}-pgsql
 
 %{__make}
@@ -330,7 +330,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with php}
-%files -n php-uuid
+%files -n %{php_name}-uuid
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/%{name}.ini
 %attr(755,root,root) %{php_extensiondir}/%{name}.so
