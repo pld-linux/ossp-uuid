@@ -18,8 +18,8 @@ Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
 Patch0:		uuid-ossp-prefix.patch
 Patch1:		php3.patch
 URL:		http://www.ossp.org/pkg/lib/uuid/
-%{?with_php:BuildRequires:    %{php_name}-program}
 %{?with_php:BuildRequires:	%{php_name}-devel}
+%{?with_php:BuildRequires:	%{php_name}-program}
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 %{?with_perl:BuildRequires:	perl-devel}
