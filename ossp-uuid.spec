@@ -5,12 +5,12 @@
 %bcond_with	pgsql		# build postgresql binding
 %bcond_without  static_libs     # don't build static libraries
 
-%define		php_name	php55
+%define		php_name	php
 Summary:	Universally Unique Identifier library
 Summary(pl.UTF-8):	Biblioteka unikalnych identyfikatorów UUID
 Name:		ossp-uuid
 Version:	1.6.2
-Release:	19
+Release:	20
 License:	MIT
 Group:		Libraries
 Source0:	ftp://ftp.ossp.org/pkg/lib/uuid/uuid-%{version}.tar.gz
