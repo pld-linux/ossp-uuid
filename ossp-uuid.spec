@@ -228,7 +228,6 @@ ln -sf /%{_lib}/$(basename $RPM_BUILD_ROOT/%{_lib}/libossp-uuid.so.*.*) $RPM_BUI
 
 rm $RPM_BUILD_ROOT%{perl_vendorarch}/OSSP/uuid.pod
 rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/OSSP/uuid/.packlist
-rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/OSSP/uuid/uuid.bs
 %endif
 
 %if %{with php}
