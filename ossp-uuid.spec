@@ -197,6 +197,11 @@ Moduł OSSP uuid dla PostgreSQL-a.
 %patch1 -p1
 
 %build
+%if %{with php}
+cd php
+%{__libtoolize}
+cd ..
+%endif
 # Build the library.
 %configure \
 	--includedir=%{_includedir}/ossp-uuid \
