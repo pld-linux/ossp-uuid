@@ -196,6 +196,7 @@ Moduł OSSP uuid dla PostgreSQL-a.
 %patch1 -p1
 
 %build
+cp -f /usr/share/automake/config.sub .
 %if %{with php}
 cd php
 %{__libtoolize}
